@@ -136,3 +136,5 @@ Sao chép `.env.example` thành `.env.local` rồi điền giá trị. Không co
 ## Giấy phép
 
 [MIT](./LICENSE)
+
+<!-- Test PR: kiểm tra self-hosted runner nhận job pr-check -->

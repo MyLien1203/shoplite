@@ -25,5 +25,9 @@ test-results/
 # logs
 *.log
 
+# CI gate output (scripts/ci/gate.mjs)
+gate-*.json
+gate-*.log
+
 # OS
 .DS_Store

@@ -557,7 +557,7 @@ describe("<StaffOrderItem /> giao hàng kèm mã vận đơn (2.13)", () => {
   const date = () => screen.getByLabelText("Ngày giao dự kiến");
   const lastBody = () =>
     JSON.parse(fetchMock.mock.calls[fetchMock.mock.calls.length - 1][1].body) as unknown;
-  const SHIPPED = { ...confirmed(), status: "shipping" };
+  const SHIPPED = { ...confirmed(), status: "shipping" as const };
   const shippingOrder = () => SHIPPED;
 
   it("nút Giao hàng chỉ ở confirmed: primary md, aria-expanded false, controls trỏ panel, không panel", () => {

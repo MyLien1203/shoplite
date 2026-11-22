@@ -37,3 +37,40 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  claude-review:
+    name: Claude review
+    runs-on: [self-hosted, shoplite]
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+      GH_TOKEN: ${{ github.token }}
+      BASE_REF: ${{ github.event.pull_request.base.ref }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check token
+        run: |
+          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            echo "::error::Secret CLAUDE_CODE_OAUTH_TOKEN is not set"
+            exit 1
+          fi
+          claude --version
+
+      - name: Run Claude review
+        run: |
+          git diff "origin/${BASE_REF}...HEAD" > pr.diff
+          claude -p "Review the pull request diff in pr.diff for bugs, security issues and missing tests. Reply in concise Markdown." \
+            --allowedTools "Read,Grep,Glob" \
+            > review.md
+
+      - name: Post review comment
+        run: gh pr comment "$PR_NUMBER" --body-file review.md

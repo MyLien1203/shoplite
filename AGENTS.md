@@ -6,7 +6,8 @@ Hướng dẫn cho mọi AI coding agent (Claude Code, Codex, Cursor, Copilot...
 
 ShopLite là cửa hàng đồ công nghệ mini: Next.js 16 (App Router), React 19, TypeScript (strict),
 Tailwind CSS v4, Zod 4. Không có database: sản phẩm là dữ liệu tĩnh trong `src/data/`, đơn hàng
-lưu file JSON `storage/orders.json` (gitignored). Giao diện tiếng Việt, tiền tệ VND.
+và tồn kho lưu file JSON `storage/store.json` (gitignored, đổi bằng `STORE_FILE`) qua store gateway
+(`src/features/store/`). Giao diện tiếng Việt, tiền tệ VND.
 
 Next.js 16 có nhiều thay đổi so với các phiên bản cũ (params là Promise, `PageProps`/`RouteContext`
 toàn cục...). Tài liệu đúng phiên bản nằm ở `node_modules/next/dist/docs/` - đọc trước khi dùng API
@@ -67,7 +68,7 @@ Luồng giỏ hàng: `AddToCartButton` → `useCart().addItem` → `cartStore.di
 
 - Vitest + Testing Library, file `*.test.ts(x)` đặt cạnh file nguồn.
 - Test cần chạm file hệ thống thêm dòng đầu `// @vitest-environment node`.
-- Dùng `createInMemoryOrderRepository()` thay cho file JSON trong test.
+- Dùng `createInMemoryStoreGateway()` thay cho file JSON trong test.
 - Thêm/sửa nghiệp vụ ⇒ phải có test cho trường hợp biên (ví dụ: đúng ngưỡng 500.000đ).
 
 ## Không được làm

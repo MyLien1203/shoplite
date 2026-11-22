@@ -514,7 +514,8 @@ describe("<StaffOrdersView /> xác nhận và đã giao một cú bấm (2.11)",
     expect(screen.getByRole("button", { name: "Xác nhận đơn B" })).toBeEnabled();
     await act(async () => resolve(new Response(JSON.stringify(withStatus(a, "confirmed")))));
     expect(within(rowOf("A")).getByText("Đã xác nhận")).toBeVisible();
-    expect(within(rowOf("A")).queryByRole("button")).toBeNull();
+    expect(within(rowOf("A")).queryByRole("button", { name: "Xác nhận đơn A" })).toBeNull();
+    expect(within(rowOf("A")).getByRole("button", { name: "Giao hàng đơn A" })).toBeVisible();
     expect(screen.getAllByTestId("staff-order-row").map((r) => r.dataset.orderId)).toEqual([
       "A",
       "B",
@@ -650,7 +651,8 @@ describe("<StaffOrdersView /> xác nhận và đã giao một cú bấm (2.11)",
       reload(new Response(JSON.stringify({ orders: [withStatus(a, "confirmed")], counts: {} }))),
     );
     expect(within(rowOf("A")).getByText("Đã xác nhận")).toBeVisible();
-    expect(within(rowOf("A")).queryByRole("button")).toBeNull();
+    expect(within(rowOf("A")).queryByRole("button", { name: "Xác nhận đơn A" })).toBeNull();
+    expect(within(rowOf("A")).getByRole("button", { name: "Giao hàng đơn A" })).toBeVisible();
     expect(within(rowOf("A")).getByRole("status")).toHaveTextContent("Đơn vừa được cập nhật.");
     expect(headingOf("A")).toHaveFocus();
     expect(live()).toHaveTextContent("Cần xử lý: 1 đơn.");
